@@ -55,25 +55,25 @@ if(isset($_REQUEST['c']) && !empty($_REQUEST['c'])){
 
     switch($searchCriteria){
         case 's':
-            $searchCriteria = 0;
+            $GLOBALS['searchCriteria'] = "surname";
             break;
         case 'f':
-            $searchCriteria = 1;
+            $GLOBALS['searchCriteria'] = "firstname";
             break;
         case 't':
-            $searchCriteria = 2;
+            $GLOBALS['searchCriteria'] = "title";
             break;
         case 'd':
-            $searchCriteria = 3;
+            $GLOBALS['searchCriteria'] = "department";
             break;
         case 'n':
-            $searchCriteria = 4;
+            $GLOBALS['searchCriteria'] = "tel";
             break;
         case 'e':
-            $searchCriteria = 5;
+            $GLOBALS['searchCriteria'] = "extension";
             break;
         case 'm':
-            $searchCriteria = 6;
+            $GLOBALS['searchCriteria'] = "mobile";
             break;
     }
 
@@ -83,29 +83,26 @@ if(isset($_REQUEST["q"]) && !empty($_REQUEST["q"])){
     $q = htmlentities($_REQUEST["q"]);
 }
 
+//params match the td below
+function outputData($f,$s,$t,$d,$p,$ex,$m,$em){
 
-function outputData($jsonData){
 
-  foreach($jsonData as $row){
+  
     $hint .= "<tr>
-                <td>".$row->firstname."</td>
-                <td>".$row->surname."</td>
-                <td>".$row->title."</td>
-                <td>".$row->department."</td>
-                <td>".$row->direct_tel."</td>
-                <td>".$row->extension."</td>
-                <td>".$row->mobile."</td>
-                <td>".$row->email."</td>
+                <td>".$f."</td>
+                <td>".$s."</td>
+                <td>".$t."</td>
+                <td>".$d."</td>
+                <td>".$p."</td>
+                <td>".$ex."</td>
+                <td>".$m."</td>
+                <td>".$em."</td>
               ";
-              
+
               if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
                 $hint .= "<td><button>Edit</button></td>
                           <td><button>Delete</button></td>";
               }
-  }
-
-
-
 
 
     $hint .= "</tr>";
@@ -115,9 +112,6 @@ function outputData($jsonData){
 
 
 function getEmpData($num,$txtquery,$length){
-
-
-
 
     switch($num){
             case 1:
@@ -139,14 +133,51 @@ function getEmpData($num,$txtquery,$length){
 
         //if the search value $q is just one then pass
         if($txtquery == "x"){
-           $GLOBALS['hint'] .= outputData($jsonData);
+
+          //output data from location folders
+           foreach($jsonData as $row){
+
+             $GLOBALS['hint'] .= "<tr>
+                         <td>".$row->firstname."</td>
+                         <td>".$row->surname."</td>
+                         <td>".$row->title."</td>
+                         <td>".$row->department."</td>
+                         <td>".$row->direct_tel."</td>
+                         <td>".$row->extension."</td>
+                         <td>".$row->mobile."</td>
+                         <td>".$row->email."</td>
+                       ";
+
+                       if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
+                         $GLOBALS['hint'].= "<td><button>Edit</button></td>
+                                   <td><button>Delete</button></td></tr>";
+                       }
+           }
         }
         else{
 
-            if(stristr($txtquery, substr($employees[$x][$GLOBALS['searchCriteria']], 0, $length))) {
-                $GLOBALS['hint'] .= outputData($employees[$x]);
-            }
+            foreach ($jsonData as $jvalue) {
 
+              if($GLOBALS['searchCriteria'] == "firstname"){
+                $emp = $jvalue->firstname;
+                $emp = strtolower($emp);
+                $len=strlen($txtquery);
+
+                //pass each matched record for output
+                if(stristr($txtquery, substr($emp, 0, $len))) {
+
+                  $GLOBALS['hint'] .= outputData(
+                    $jvalue->firstname,
+                    $jvalue->surname,
+                    $jvalue->title,
+                    $jvalue->department,
+                    $jvalue->direct_tel,
+                    $jvalue->extension,
+                    $jvalue->mobile,
+                    $jvalue->email);
+                }
+              }
+            }
         }
 }
 
