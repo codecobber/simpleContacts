@@ -109,7 +109,7 @@ function criteriaSet(crit){
        document.getElementById('searchLoc').innerHTML = "Results for: " + fullTitle + fullname;
 
        if(textVal=="" || textVal==" "){
-        showHint("x"); // call function based on criteria that exists in the field
+        showHint("x"); // call function based on criteria -if field empty then send x
        }
        else{
         showHint(textVal); // call function based on criteria that exists in the field

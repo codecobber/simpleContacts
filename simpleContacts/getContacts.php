@@ -22,15 +22,16 @@ $locCriteria = '';
 $tempArray=array();
 
 $hint = "<tr>
+            <th>First name</th>
             <th>Surname</th>
-            <th>First Name</th>
             <th>Title</th>
             <th>Department</th>
             <th>Direct Tel</th>
             <th>Extension</th>
             <th>Mobile </th>
+            <td>Email</td>
             ";
-
+// if user is set and has  a value of 1 then added two th
 if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
   $hint .= "
               <th>Edit </th>
@@ -83,17 +84,31 @@ if(isset($_REQUEST["q"]) && !empty($_REQUEST["q"])){
 }
 
 
-function outputData($emps){
+function outputData($jsonData){
 
+  foreach($jsonData as $row){
     $hint .= "<tr>
-                <td>".$emps[0]."</td>
-                <td>".$emps[1]."</td>
-                <td>".$emps[2]."</td>
-                <td>".$emps[3]."</td>
-                <td>".$emps[4]."</td>
-                <td>".$emps[6]."</td>
-              </tr>";
+                <td>".$row->firstname."</td>
+                <td>".$row->surname."</td>
+                <td>".$row->title."</td>
+                <td>".$row->department."</td>
+                <td>".$row->direct_tel."</td>
+                <td>".$row->extension."</td>
+                <td>".$row->mobile."</td>
+                <td>".$row->email."</td>
+              ";
+              
+              if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
+                $hint .= "<td><button>Edit</button></td>
+                          <td><button>Delete</button></td>";
+              }
+  }
 
+
+
+
+
+    $hint .= "</tr>";
     return $hint;
 }
 
@@ -101,43 +116,38 @@ function outputData($emps){
 
 function getEmpData($num,$txtquery,$length){
 
+
+
+
     switch($num){
             case 1:
-                include_once(SCOTHERPATH.'cardonald/data.php');
+                $jsonData = json_decode(file_get_contents(SCOTHERPATH.'cardonald/data.json'));
             break;
             case 2:
-                include_once(SCOTHERPATH.'clyde/data.php');
+                $jsonData = json_decode(file_get_contents(SCOTHERPATH.'clyde/data.json'));
             break;
             case 3:
-                include_once(SCOTHERPATH.'east/data.php');
+                $jsonData = json_decode(file_get_contents(SCOTHERPATH.'east/data.json'));
             break;
             case 4:
-                include_once(SCOTHERPATH.'north/data.php');
+                $jsonData = json_decode(file_get_contents(SCOTHERPATH.'north/data.json'));
             break;
             case 5:
-                include_once(SCOTHERPATH.'local/data.php');
-            break;
-
-            default:
-              echo "Bummer!!!";
+                $jsonData = json_decode(file_get_contents(SCOTHERPATH.'local/data.json'));
             break;
         }
 
-    $arrlength = count($employees);
-
-    for($x = 0; $x < $arrlength; $x++) {
-
+        //if the search value $q is just one then pass
         if($txtquery == "x"){
-           $GLOBALS['hint'] .= outputData($employees[$x]);
+           $GLOBALS['hint'] .= outputData($jsonData);
         }
         else{
 
             if(stristr($txtquery, substr($employees[$x][$GLOBALS['searchCriteria']], 0, $length))) {
                 $GLOBALS['hint'] .= outputData($employees[$x]);
             }
-        }
-    }
 
+        }
 }
 
 
@@ -150,8 +160,8 @@ if (!empty($q)) {
     $firstChar = substr($q,0,1);
     $locs = "";
 
-
-    if(strpos($GLOBALS['locCriteria'], "-")>-1){
+    //test for more than one location seperated with a hyphen. eg: 1-2-3-4-5
+    if(strpos($GLOBALS['locCriteria'], "-") !== FALSE){
 
         $locs = explode("-", $locCriteria);
 
@@ -160,6 +170,7 @@ if (!empty($q)) {
         }
     }
     else{
+      //else get value of the single location
         getEmpData($locCriteria,$q,$len);
     }
 
