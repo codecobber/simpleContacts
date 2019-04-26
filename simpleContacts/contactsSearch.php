@@ -17,14 +17,13 @@
                               <input class="specificCriteria" id="title" onclick ="criteriaSet('t')" type="radio" name="criteria" value="7"> Title
                               <input class="specificCriteria" id="dep" onclick ="criteriaSet('d')" type="radio" name="criteria" value="8"> Department
                               <input class="specificCriteria" id="dir" onclick ="criteriaSet('n')" type="radio" name="criteria" value="9"> Direct Tel No
-                              <input class="specificCriteria" id="ext" onclick ="criteriaSet('e')" type="radio" name="criteria" value="10"> Extension
                               <input class="specificCriteria" id="mob" onclick ="criteriaSet('m')" type="radio" name="criteria" value="11"> Mobile
                         </form>
 
 
                         <hr>
 
-                        <p>Now enter your search term. <strong>As you type, results will appear</strong></p>
+                        <p>Now enter your search term. (For best results enter a minimum of two characters)<strong>.<br>As you type, results will appear</strong></p>
 
                         <form onsubmit="event.preventDefault();">
                             <input id="searchVal" type="text" onkeyup="showHint(this.value)">

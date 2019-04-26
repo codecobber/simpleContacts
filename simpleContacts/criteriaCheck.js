@@ -98,10 +98,6 @@ function criteriaSet(crit){
                criteria = "n";
                fullTitle ="Direct Tel No + ";
             break;
-            case 'e':
-               criteria = "e";
-               fullTitle ="Extension + ";
-            break;
             case 'm':
                criteria = "m";
                fullTitle ="Mobile no + ";
@@ -110,7 +106,7 @@ function criteriaSet(crit){
 
        document.getElementById('searchLoc').innerHTML = "Results for: " + fullTitle + fullname;
 
-       if(textVal=="" || textVal==" "){
+       if(textVal.length === 0){
         showHint("x"); // call function based on location criteria -if field empty then send x
        }
        else{

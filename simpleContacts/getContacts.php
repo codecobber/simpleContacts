@@ -32,7 +32,7 @@ $hint = "<tr>
             <th>Direct Tel</th>
             <th>Extension</th>
             <th>Mobile </th>
-            <td>Email</td>
+            <th>Email</th>
             ";
 // if user is set and has  a value of 1 then added two th
 if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
@@ -151,10 +151,7 @@ function getEmpData($num,$txtquery,$length){
                $row->mobile,
                $row->email);
 
-               if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
-                  $GLOBALS['hint'].= "<td><button>Edit</button></td>
-                                      <td><button>Delete</button></td></tr>";
-               }
+               
            }
         }
         else{

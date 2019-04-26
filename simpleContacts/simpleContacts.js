@@ -9,7 +9,6 @@ var fullTitle="";
 function showHint(str) {
 
     if (str.length == 0) {
-        //document.getElementById("txtHint").innerHTML = "";
         criteriaSet(criteria);
         return;
     } else {
