@@ -20,6 +20,9 @@ define("SCOTHERPATH","../../data/other/simpleContacts/");
 $searchCriteria = "s"; // set to surname by default
 $locCriteria = '';
 $tempArray=array();
+$q="";
+
+
 
 $hint = "<tr>
             <th>First name</th>
@@ -80,14 +83,12 @@ if(isset($_REQUEST['c']) && !empty($_REQUEST['c'])){
 }
 
 if(isset($_REQUEST["q"]) && !empty($_REQUEST["q"])){
-    $q = htmlentities($_REQUEST["q"]);
+    $GLOBALS['q'] = htmlentities($_REQUEST["q"]);
 }
 
 //params match the td below
 function outputData($f,$s,$t,$d,$p,$ex,$m,$em){
 
-
-  
     $hint .= "<tr>
                 <td>".$f."</td>
                 <td>".$s."</td>
@@ -113,6 +114,7 @@ function outputData($f,$s,$t,$d,$p,$ex,$m,$em){
 
 function getEmpData($num,$txtquery,$length){
 
+    //get the location file and data
     switch($num){
             case 1:
                 $jsonData = json_decode(file_get_contents(SCOTHERPATH.'cardonald/data.json'));
@@ -131,35 +133,63 @@ function getEmpData($num,$txtquery,$length){
             break;
         }
 
+
+
         //if the search value $q is just one then pass
         if($txtquery == "x"){
 
           //output data from location folders
            foreach($jsonData as $row){
 
-             $GLOBALS['hint'] .= "<tr>
-                         <td>".$row->firstname."</td>
-                         <td>".$row->surname."</td>
-                         <td>".$row->title."</td>
-                         <td>".$row->department."</td>
-                         <td>".$row->direct_tel."</td>
-                         <td>".$row->extension."</td>
-                         <td>".$row->mobile."</td>
-                         <td>".$row->email."</td>
-                       ";
+             $GLOBALS['hint'] .= outputData(
+               $row->firstname,
+               $row->surname,
+               $row->title,
+               $row->department,
+               $row->tel,
+               $row->extension,
+               $row->mobile,
+               $row->email);
 
-                       if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
-                         $GLOBALS['hint'].= "<td><button>Edit</button></td>
-                                   <td><button>Delete</button></td></tr>";
-                       }
+               if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
+                  $GLOBALS['hint'].= "<td><button>Edit</button></td>
+                                      <td><button>Delete</button></td></tr>";
+               }
            }
         }
         else{
 
             foreach ($jsonData as $jvalue) {
 
-              if($GLOBALS['searchCriteria'] == "firstname"){
-                $emp = $jvalue->firstname;
+              switch ($GLOBALS['searchCriteria']) {
+                case 'firstname':
+                  $emp = $jvalue->firstname;
+                  break;
+                case 'surname':
+                    $emp = $jvalue->surname;
+                  break;
+                case 'title':
+                    $emp = $jvalue->title;
+                  break;
+                case 'department':
+                      $emp = $jvalue->department;
+                  break;
+                case 'tel':
+                        $emp = $jvalue->tel;
+                  break;
+                case 'tel':
+                        $emp = $jvalue->tel;
+                  break;
+                case 'extension':
+                        $emp = $jvalue->extension;
+                  break;
+                case 'department':
+                        $emp = $jvalue->department;
+                  break;
+
+
+              }
+
                 $emp = strtolower($emp);
                 $len=strlen($txtquery);
 
@@ -176,7 +206,7 @@ function getEmpData($num,$txtquery,$length){
                     $jvalue->mobile,
                     $jvalue->email);
                 }
-              }
+
             }
         }
 }
@@ -185,27 +215,27 @@ function getEmpData($num,$txtquery,$length){
 
 // lookup all hints from array if $q is different from "" ==============
 
-if (!empty($q)) {
-    $q = strtolower($q);
-    $len=strlen($q);
-    $firstChar = substr($q,0,1);
+if (!empty($GLOBALS['q'])) {
+    $sc_query = strtolower($GLOBALS['q']);
+    $len=strlen($sc_query);
+    $firstChar = substr($sc_query,0,1);
     $locs = "";
 
     //test for more than one location seperated with a hyphen. eg: 1-2-3-4-5
     if(strpos($GLOBALS['locCriteria'], "-") !== FALSE){
 
-        $locs = explode("-", $locCriteria);
+        $locs = explode("-", $GLOBALS['locCriteria']);
 
         foreach ($locs as $locVal) {
-            getEmpData($locVal,$q,$len);
+            getEmpData($locVal,$sc_query,$len);
         }
     }
     else{
       //else get value of the single location
-        getEmpData($locCriteria,$q,$len);
+        getEmpData($GLOBALS['locCriteria'],$sc_query,$len);
     }
-
 }
+
 
 echo $hint;
 
