@@ -1,6 +1,5 @@
                    <div class="signup-panel criteria">
 
-                        <h1> NHS24 Telephone Directory</h1>
                         <p>Select the search criteria</p>
 
                         <form id="location">
@@ -12,12 +11,12 @@
                         </form>
 
                         <form id="criteria">
-                              <input class="specificCriteria" id="first" onclick ="criteriaSet('f')"  type="radio" name="criteria" value="5"> First name
-                              <input class="specificCriteria" id="last" onclick ="criteriaSet('s')" type="radio" name="criteria" value="6"> Surname
-                              <input class="specificCriteria" id="title" onclick ="criteriaSet('t')" type="radio" name="criteria" value="7"> Title
-                              <input class="specificCriteria" id="dep" onclick ="criteriaSet('d')" type="radio" name="criteria" value="8"> Department
-                              <input class="specificCriteria" id="dir" onclick ="criteriaSet('n')" type="radio" name="criteria" value="9"> Direct Tel No
-                              <input class="specificCriteria" id="mob" onclick ="criteriaSet('m')" type="radio" name="criteria" value="11"> Mobile
+                              <input class="specificCriteria" id="sc_first" onclick ="criteriaSet('f')"  type="radio" name="criteria" value="5"> First name
+                              <input class="specificCriteria" id="sc_last" onclick ="criteriaSet('s')" type="radio" name="criteria" value="6"> Surname
+                              <input class="specificCriteria" id="sc_title" onclick ="criteriaSet('t')" type="radio" name="criteria" value="7"> Title
+                              <input class="specificCriteria" id="sc_dep" onclick ="criteriaSet('d')" type="radio" name="criteria" value="8"> Department
+                              <input class="specificCriteria" id="sc_dir" onclick ="criteriaSet('n')" type="radio" name="criteria" value="9"> Tel No
+                              <input class="specificCriteria" id="sc_mob" onclick ="criteriaSet('m')" type="radio" name="criteria" value="11"> Mobile
                         </form>
 
 

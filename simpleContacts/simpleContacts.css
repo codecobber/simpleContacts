@@ -1,0 +1,51 @@
+/* Simple Contacts CSS */
+table#txtHint {
+  margin-bottom: 4em;
+}
+
+#txtHint td{
+  color:#444;
+  padding: 12px;
+}
+
+#txtHint tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+#location, #criteria{
+  margin-top:10px;
+}
+
+input.choices, input.specificCriteria{
+  margin-left:20px;
+}
+
+#location, #criteria input{
+  font-size:13px;
+}
+
+#criteria input, #location input{
+  position: relative;
+  top:5px;
+}
+
+#criteria input{
+  width: 1.6em;
+  height: 1.6em;
+}
+
+#location input{
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.signup-panel h1{
+  font-size: 2em;
+  margin-top:2em;
+  margin-bottom:2em;
+}
+
+.selectedSearch{
+  color:#fff;
+  background-color: #8b8b8b;
+}

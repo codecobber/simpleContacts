@@ -24,26 +24,10 @@ $q="";
 
 
 
-$hint = "<tr>
-            <th>First name</th>
-            <th>Surname</th>
-            <th>Title</th>
-            <th>Department</th>
-            <th>Direct Tel</th>
-            <th>Extension</th>
-            <th>Mobile </th>
-            <th>Email</th>
-            ";
-// if user is set and has  a value of 1 then added two th
-if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
-  $hint .= "
-              <th>Edit </th>
-              <th>Delete </th>
-              ";
-}
 
 
-$hint .= "</tr>";
+
+
 
 
 if(isset($_REQUEST['l']) && !empty($_REQUEST['l'])){
@@ -72,9 +56,6 @@ if(isset($_REQUEST['c']) && !empty($_REQUEST['c'])){
         case 'n':
             $GLOBALS['searchCriteria'] = "tel";
             break;
-        case 'e':
-            $GLOBALS['searchCriteria'] = "extension";
-            break;
         case 'm':
             $GLOBALS['searchCriteria'] = "mobile";
             break;
@@ -86,10 +67,63 @@ if(isset($_REQUEST["q"]) && !empty($_REQUEST["q"])){
     $GLOBALS['q'] = htmlentities($_REQUEST["q"]);
 }
 
+// Add tab colour for visual notification of selected seach pattern
+
+$hint = "<tr>";
+
+if($GLOBALS['searchCriteria'] == "firstname") {
+    $hint .= "<th class='selectedSearch'>First name</th>";
+}
+else{
+  $hint .= "<th>First name</th>";
+}
+
+if($GLOBALS['searchCriteria'] == "surname") {
+    $hint .= "<th class='selectedSearch'>Surname</th>";
+}
+else{
+  $hint .= "<th>Surname</th>";
+}
+
+if($GLOBALS['searchCriteria'] == "title") {
+    $hint .= "<th class='selectedSearch'>Title</th>";
+}
+else{
+  $hint .= "<th>Title</th>";
+}
+
+if($GLOBALS['searchCriteria'] == "department") {
+    $hint .= "<th class='selectedSearch'>Department</th>";
+}
+else{
+  $hint .= "<th>Department</th>";
+}
+
+if($GLOBALS['searchCriteria'] == "tel") {
+    $hint .= "<th class='selectedSearch'>Tel</th>";
+}
+else{
+  $hint .= "<th>Tel</th>";
+}
+
+if($GLOBALS['searchCriteria'] == "mobile") {
+    $hint .= "<th class='selectedSearch'>Mobile</th>";
+}
+else{
+  $hint .= "<th>Mobile</th>";
+}
+
+$hint .="<th>Extension</th>
+         <th>Email</th>
+         </tr>";
+
+
+
+
 //params match the td below
 function outputData($f,$s,$t,$d,$p,$ex,$m,$em){
 
-    $hint .= "<tr>
+    $hint .= "<tr class='animated fadeIn'>
                 <td>".$f."</td>
                 <td>".$s."</td>
                 <td>".$t."</td>
@@ -97,13 +131,10 @@ function outputData($f,$s,$t,$d,$p,$ex,$m,$em){
                 <td>".$p."</td>
                 <td>".$ex."</td>
                 <td>".$m."</td>
-                <td>".$em."</td>
+                <td><a href='".$em."'>" . $em . "</a></td>
               ";
 
-              if(isset($_SESSION['userOnline']) && $_SESSION['userOnline'] == 1){
-                $hint .= "<td><button>Edit</button></td>
-                          <td><button>Delete</button></td>";
-              }
+
 
 
     $hint .= "</tr>";
@@ -151,7 +182,7 @@ function getEmpData($num,$txtquery,$length){
                $row->mobile,
                $row->email);
 
-               
+
            }
         }
         else{

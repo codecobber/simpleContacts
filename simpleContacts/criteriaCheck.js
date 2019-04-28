@@ -9,6 +9,8 @@ function criteriaSet(crit){
         var list ="";
         var textVal = document.getElementById('searchVal').value;
 
+
+
         fullname = "";
 
         //check the checkboxes for checked value
@@ -76,6 +78,8 @@ function criteriaSet(crit){
 
 
 
+
+
         switch(crit){
 
             case 'f':
@@ -103,6 +107,8 @@ function criteriaSet(crit){
                fullTitle ="Mobile no + ";
             break;
         }
+
+
 
        document.getElementById('searchLoc').innerHTML = "Results for: " + fullTitle + fullname;
 
