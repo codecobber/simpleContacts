@@ -56,6 +56,9 @@ add_action( 'theme-footer', 'addJSfooter');
 
 add_filter('content','content_test');
 
+register_style('simpleContacts', $SITEURL.'plugins/simpleContacts/simpleContacts.css', 1.0, 'screen');
+queue_style('simpleContacts',GSFRONT);
+
 
 function addJSheader(){
 	$jsHeaderScript = file_get_contents(SCPLUGINSPATH.'simpleContacts/simpleContacts.js') OR die();
@@ -77,15 +80,8 @@ function content_test($con){
 
 
 		//check if keywords
-		if(stripos($pageAddress, "editmeplugin") !== FALSE){
-			$regex = '(%editme%)'; // this is what you need
-			$out = "Found Ok this works - edit baby!!! SUPER AWESOME!!!!!";
-		}
-		elseif(stripos($pageAddress, "createmeplugin") !== FALSE){
-			$regex = '(%createme%)'; // this is what you need
-			$out = "Found Ok this works - Create baby!!! SUPER AWESOME!!!!!";
-		}
-		elseif(stripos($pageAddress, "helpmeplugin") !== FALSE){
+
+		if(stripos($pageAddress, "helpmeplugin") !== FALSE){
 			$regex = '(%helpme%)'; // this is what you need
 			$out = "Found Ok this works - help baby!!! SUPER AWESOME!!!!!";
 		}
